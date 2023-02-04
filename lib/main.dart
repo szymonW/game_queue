@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_queue/players_list.dart';
-import 'package:game_queue/home_page.dart';
+import 'package:game_queue/pages/home_page.dart';
 
 
 void main() {
