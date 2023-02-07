@@ -36,7 +36,7 @@ class PlayersList extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(insidePadding),
           decoration: BoxDecoration(
-              color: Colors.green,
+              color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(outsidePadding),
                   bottomLeft: Radius.circular(outsidePadding)
