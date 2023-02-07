@@ -10,13 +10,10 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: Colors.green,
-      content: MaterialButton(
+    return MaterialButton(
         onPressed: onPressed,
         color: Theme.of(context).primaryColor,
         child: Text(buttonName),
-      ),
     );
   }
 

@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:game_queue/utils/app_buttons.dart';
 
 class PlayerDialogBox extends StatelessWidget {
-  const PlayerDialogBox({super.key});
+  final controller;
+  VoidCallback onSave;
+  VoidCallback onCancel;
+
+  PlayerDialogBox({super.key,
+    required this.controller,
+    required this.onSave,
+    required this.onCancel});
 
   @override
   Widget build(BuildContext context) {
@@ -10,26 +17,28 @@ class PlayerDialogBox extends StatelessWidget {
       backgroundColor: Colors.green,
       content: Container(
         height: 120,
-        child: Column(
-          children: [
+        child: Column(children: [
             //Add player name
             TextField(
-              obscureText: true,
+              controller: controller,
+              // obscureText: true, <- for password
               cursorColor: Colors.black,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Player name',
               ),
             ),
             //Buttons (Cancel & Save)
-            Row(
+          Padding(padding: const EdgeInsets.only(top: 5.0),
+              child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                AppButton(buttonName: "Cancel", onPressed: (){}),
-                AppButton(buttonName: "Save", onPressed: (){}),
+                AppButton(buttonName: "Cancel", onPressed: onCancel),
+                AppButton(buttonName: "Save", onPressed: onSave),
               ],
-            )
-          ],
-        ),
+            ),
+          )
+        ]),
       ),
     );
   }

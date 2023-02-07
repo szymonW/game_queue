@@ -12,11 +12,36 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  var playerList = [["Wyder"],["Pyh"]];
-//Add new player
+  //text controller
+  final _controller = TextEditingController();
+
+  var playerList = [];
+
+  //Save new player
+  void saveNewPlayer(){
+    setState(() {
+      playerList.add([_controller.text]);
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+  }
+  //Add new player
   void addPlayer() {
-    showDialog(context: context, builder: (context) {
-      return PlayerDialogBox();
+    showDialog(
+        context: context,
+        builder: (context) {
+          return PlayerDialogBox(
+            controller: _controller,
+            onCancel: () => Navigator.of(context).pop(),
+            onSave: saveNewPlayer,
+          );
+    });
+  }
+
+  //Delete Player
+  void deleteField(int index){
+    setState(() {
+      playerList.removeAt(index);
     });
   }
 
@@ -32,11 +57,22 @@ class _HomePageState extends State<HomePage> {
         onPressed: addPlayer,
         child: const Icon(Icons.add),
       ),
-      body: ListView.builder(
-        itemCount: playerList.length,
-        itemBuilder: (context, index){
-          return PlayersList(playerName: playerList[index][0]);
-        },
+      body: Container(
+        // decoration: BoxDecoration(
+        // borderRadius: BorderRadius.only(
+        //     topLeft: Radius.circular(40),
+        //     topRight: Radius.circular(40))
+        // ),
+        padding: const EdgeInsets.only(bottom: 50.0),
+        child: ListView.builder(
+          itemCount: playerList.length,
+          itemBuilder: (context, index){
+            return PlayersList(
+              playerName: playerList[index][0],
+              deletePlayer: (context) => deleteField(index),
+            );
+          },
+        ),
       )
     );
   }
