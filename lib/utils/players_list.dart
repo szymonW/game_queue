@@ -29,7 +29,7 @@ class PlayersList extends StatelessWidget {
             SlidableAction(
                 onPressed: deletePlayer,
                 icon: Icons.delete,
-                backgroundColor: Colors.red),
+                backgroundColor: Colors.red.shade400),
           ],
         ),
         child: Container(
