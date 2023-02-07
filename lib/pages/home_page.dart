@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[100],
+      backgroundColor: Colors.green,
       appBar: AppBar(
         title: const Text("Game Queue"),
         elevation: 0,
@@ -58,11 +58,12 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.add),
       ),
       body: Container(
-        // decoration: BoxDecoration(
-        // borderRadius: BorderRadius.only(
-        //     topLeft: Radius.circular(40),
-        //     topRight: Radius.circular(40))
-        // ),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25)
+          ),
+        color: Color(0xFF80DC69),
+        ),
         padding: const EdgeInsets.only(bottom: 50.0),
         child: ListView.builder(
           itemCount: playerList.length,

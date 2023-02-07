@@ -15,11 +15,11 @@ class PlayersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var outsidePadding = 15.0;
-    var insidePadding = 24.0;
+    var insidePadding = 18.0;
 
     return Padding(
       padding: EdgeInsets.only(
-          top:outsidePadding,
+          top: outsidePadding,
           right: outsidePadding,
           left: outsidePadding),
       child: Slidable(
@@ -36,12 +36,13 @@ class PlayersList extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(insidePadding),
           decoration: BoxDecoration(
-              color: Colors.green[300],
+              color: Colors.green,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(outsidePadding),
                   bottomLeft: Radius.circular(outsidePadding)
               )),
-          child: Text(playerName),
+          child: Text(playerName,
+            style: const TextStyle(fontSize: 18, fontFamily: 'Roboto'),),
         ),
       )
     );
