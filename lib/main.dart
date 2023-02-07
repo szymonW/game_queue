@@ -1,8 +1,16 @@
-import 'package:flutter/material.dart';
+import  'package:flutter/material.dart';
 import 'package:game_queue/pages/home_page.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 
-void main() {
+
+void main() async {
+  //Initialize Hive
+  await Hive.initFlutter();
+
+  // Open a box
+  var box = await Hive.openBox('playersbox');
+
   runApp(const MyApp());
 }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:game_queue/utils/players_list.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
+import '../db/database.dart';
 import '../utils/player_dialog_box.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,19 +13,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //reference to hive box
+  final _playersBox = Hive.box('playersBox');
+  PalyersDataBase db = PalyersDataBase();
+
+  @override
+  void initState() {
+    if (_playersBox.get("players") != null) {
+      db.loadDB();
+    }
+    super.initState();
+  }
 
   //text controller
   final _controller = TextEditingController();
 
-  var playerList = [];
-
   //Save new player
   void saveNewPlayer(){
     setState(() {
-      playerList.add([_controller.text]);
+      db.playerList.add([_controller.text]);
       _controller.clear();
     });
     Navigator.of(context).pop();
+    db.updateDB();
   }
   //Add new player
   void addPlayer() {
@@ -41,8 +53,9 @@ class _HomePageState extends State<HomePage> {
   //Delete Player
   void deleteField(int index){
     setState(() {
-      playerList.removeAt(index);
+      db.playerList.removeAt(index);
     });
+    db.updateDB();
   }
 
   @override
@@ -67,10 +80,10 @@ class _HomePageState extends State<HomePage> {
         ),
         padding: const EdgeInsets.only(bottom: 50.0),
         child: ListView.builder(
-          itemCount: playerList.length,
+          itemCount: db.playerList.length,
           itemBuilder: (context, index){
             return PlayersList(
-              playerName: playerList[index][0],
+              playerName: db.playerList[index][0],
               deletePlayer: (context) => deleteField(index),
             );
           },
