@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
 
+
 class PlayersList extends StatelessWidget {
-  const PlayersList({super.key});
+  final String playerName;
+
+  PlayersList({super.key, required this.playerName});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-      child: Container(
+    var outsidePadding = 15.0;
+    var insidePadding = 12.0;
 
+    return Padding(
+      padding: EdgeInsets.only(
+          top:outsidePadding,
+          right: outsidePadding,
+          left: outsidePadding),
+      child: Container(
+        padding: EdgeInsets.all(insidePadding),
+        decoration: BoxDecoration(
+            color: Colors.green[300],
+            borderRadius: BorderRadius.circular(12)),
+        child: Text(playerName),
       )
     );
   }

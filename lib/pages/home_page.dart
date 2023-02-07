@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:game_queue/utils/players_list.dart';
 
+import '../utils/player_dialog_box.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -9,6 +11,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  var playerList = [["Wyder"],["Pyh"]];
+//Add new player
+  void addPlayer() {
+    showDialog(context: context, builder: (context) {
+      return PlayerDialogBox();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,10 +28,15 @@ class _HomePageState extends State<HomePage> {
         title: const Text("Game Queue"),
         elevation: 0,
       ),
-      body: ListView(
-        children: [
-          PlayersList(),
-        ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: addPlayer,
+        child: const Icon(Icons.add),
+      ),
+      body: ListView.builder(
+        itemCount: playerList.length,
+        itemBuilder: (context, index){
+          return PlayersList(playerName: playerList[index][0]);
+        },
       )
     );
   }
