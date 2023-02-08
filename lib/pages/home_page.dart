@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:game_queue/utils/players_list.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import '../db/database.dart';
+import '../utils/app_buttons.dart';
 import '../utils/player_dialog_box.dart';
+import 'game_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -58,6 +59,14 @@ class _HomePageState extends State<HomePage> {
     db.updateDB();
   }
 
+  //Start Game
+  void startGame(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const GameRoute()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +74,14 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Game Queue"),
         elevation: 0,
-      ),
+        backgroundColor: Theme.of(context).primaryColor,
+        actions: <Widget>[
+          AppBarButtons(
+            buttonName: "Start Game",
+            onPressed: startGame,
+          ),
+        ],
+        ),
       floatingActionButton: FloatingActionButton(
         onPressed: addPlayer,
         child: const Icon(Icons.add),
@@ -81,13 +97,13 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.only(bottom: 50.0),
         child: ListView.builder(
           itemCount: db.playerList.length,
-          itemBuilder: (context, index){
+          itemBuilder: (context, index) {
             return PlayersList(
               playerName: db.playerList[index][0],
               deletePlayer: (context) => deleteField(index),
             );
           },
-        ),
+        )
       )
     );
   }
