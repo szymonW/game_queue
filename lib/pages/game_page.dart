@@ -24,22 +24,27 @@ class _GameRoute extends State<GameRoute> {
 
   List createList () {
     List tempList = List.from(db.playerList);
-    var tempEntries = <dynamic>[];
-      for (var i in db.playerList) {
-        tempList.removeAt(0);
-        for (var j in tempList) {
-          tempEntries.add('${i[0]} vs ${j[0]}');
-        }
+    List tempEntries = [];
+    List entries = [];
+    var proIterGames = 0;
+    var revIterGames = 1;
+
+    for (var i in db.playerList) {
+      tempList.removeAt(0);
+      for (var j in tempList) {
+        tempEntries.add('${i[0]} vs ${j[0]}');
       }
-    // for mix_games in range(len(temp_games.keys())):
-    // if (mix_games+1) % 2:
-    // games[mix_games+1] = temp_games[pro_iter_games]
-    // pro_iter_games += 1
-    // else:
-    // games[mix_games+1] = temp_games[len(temp_games.keys())-rev_iter_games]
-    // rev_iter_games += 1
-    // iter_games += 1
-    return tempEntries;
+    }
+    for (int i = 0; i < tempEntries.length; i++) {
+      if (i % 2 == 0) {
+        entries.add(tempEntries[proIterGames]);
+        proIterGames++;
+      }else{
+        entries.add(tempEntries[tempEntries.length-revIterGames]);
+        revIterGames++;
+      }
+    }
+    return entries;
   }
 
   int colorCode(index) {
