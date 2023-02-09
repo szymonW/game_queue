@@ -45,16 +45,16 @@ class _GameRoute extends State<GameRoute> {
     return entries;
   }
 
-  int colorCode(index) {
-    num ireturn = 700-index*100;
+  int colorCode(index, {rev = true}) {
+    int startValue = rev ? 700 : 100;
+    int indexSign = rev ? -1 : 1;
+    num iReturn = startValue+indexSign*index*100;
     if (index <= 6) {
-      return ireturn.toInt();
+      return iReturn.toInt();
     }else{
-      return colorCode(index-6);
+      return colorCode(index-6, rev: !rev);
     }
   }
-
-  final List<int> colorCodes = <int>[600, 500, 400, 300, 200, 100];
 
   @override
   Widget build(BuildContext context) {
