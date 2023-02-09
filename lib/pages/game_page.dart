@@ -37,11 +37,9 @@ class _GameRoute extends State<GameRoute> {
     }
     for (int i = 0; i < tempEntries.length; i++) {
       if (i % 2 == 0) {
-        entries.add(tempEntries[proIterGames]);
-        proIterGames++;
+        entries.add(tempEntries[proIterGames++]);
       }else{
-        entries.add(tempEntries[tempEntries.length-revIterGames]);
-        revIterGames++;
+        entries.add(tempEntries[tempEntries.length-revIterGames++]);
       }
     }
     return entries;
