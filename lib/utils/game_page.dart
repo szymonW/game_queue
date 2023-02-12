@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../db/database.dart';
-import '../utils/games_list.dart';
+import 'games_list.dart';
 
 class GameRoute extends StatefulWidget {
   const GameRoute({super.key});
@@ -80,11 +80,6 @@ class _GameRoute extends State<GameRoute> {
                   deleteGame: (context) => deleteField(index),
                   index: index,
                 );
-                // return Container(
-                //   height: 45,
-                //   color: Colors.cyan[colorCode(index)],
-                //   child: Center(child: Text('${createList()[index]}')),
-                // );
               }
           )
         ),
