@@ -76,9 +76,12 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
         actions: <Widget>[
-          AppBarButtons(
-            buttonName: "Start Game",
-            onPressed: startGame,
+          Padding(
+            padding: const EdgeInsets.all(7.0),
+            child: AppBarButtons(
+              buttonName: "Start Game",
+              onPressed: startGame,
+            ),
           ),
         ],
         ),
@@ -95,6 +98,7 @@ class _HomePageState extends State<HomePage> {
         color: Color(0xFFACFFFF),
         ),
         padding: const EdgeInsets.only(bottom: 50.0),
+        //Build list of players
         child: ListView.builder(
           itemCount: db.playerList.length,
           itemBuilder: (context, index) {

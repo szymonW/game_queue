@@ -49,8 +49,8 @@ class AppBarButtons extends StatelessWidget {
           TextButton(
             style: TextButton.styleFrom(
               foregroundColor: Colors.black87,
-              padding: const EdgeInsets.all(16.0),
-              textStyle: const TextStyle(fontSize: 20),
+              padding: const EdgeInsets.all(8.0),
+              textStyle: const TextStyle(fontSize: 18),
             ),
             onPressed: onPressed,
             child: Text(buttonName),
