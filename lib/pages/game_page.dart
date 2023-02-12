@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../db/database.dart';
+import '../utils/games_list.dart';
 
 class GameRoute extends StatefulWidget {
   const GameRoute({super.key});
@@ -45,15 +46,12 @@ class _GameRoute extends State<GameRoute> {
     return entries;
   }
 
-  int colorCode(index, {rev = true}) {
-    int startValue = rev ? 700 : 100;
-    int indexSign = rev ? -1 : 1;
-    num iReturn = startValue+indexSign*index*100;
-    if (index <= 6) {
-      return iReturn.toInt();
-    }else{
-      return colorCode(index-6, rev: !rev);
-    }
+  //Delete Game
+  void deleteField(int index){
+    setState(() {
+      db.playerList.removeAt(index);
+    });
+    db.updateDB();
   }
 
   @override
@@ -77,11 +75,16 @@ class _GameRoute extends State<GameRoute> {
               padding: const EdgeInsets.all(15),
               itemCount: createList().length,
               itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: 45,
-                  color: Colors.cyan[colorCode(index)],
-                  child: Center(child: Text('${createList()[index]}')),
+                return GamesList(
+                  playersNames: '${createList()[index]}',
+                  deleteGame: (context) => deleteField(index),
+                  index: index,
                 );
+                // return Container(
+                //   height: 45,
+                //   color: Colors.cyan[colorCode(index)],
+                //   child: Center(child: Text('${createList()[index]}')),
+                // );
               }
           )
         ),
