@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../db/database.dart';
 import '../utils/app_buttons.dart';
 import '../utils/player_dialog_box.dart';
-import '../utils/game_page.dart';
+import 'game_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

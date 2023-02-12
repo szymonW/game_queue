@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../db/database.dart';
-import 'games_list.dart';
+import '../utils/games_list.dart';
 
 class GameRoute extends StatefulWidget {
   const GameRoute({super.key});
