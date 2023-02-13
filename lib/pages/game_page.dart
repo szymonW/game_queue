@@ -19,7 +19,11 @@ class _GameRoute extends State<GameRoute> {
   void initState() {
     if (_playersBox.get("players") != null) {
       db.loadDB("players");
-      createList();
+      if (_playersBox.get("games") != null) {
+        db.loadDB("games");
+      } else {
+        createList();
+      }
     }
     super.initState();
   }
@@ -43,13 +47,20 @@ class _GameRoute extends State<GameRoute> {
         db.gamesList.add([tempEntries[tempEntries.length-revIterGames++], false]);
       }
     }
+    db.updateGamesDB();
     return db.gamesList;
   }
 
   void checkBoxChange(bool? value, int index){
       setState(() {
+        if (db.gamesList[index][1] == false) {
+          db.gamesList.add([db.gamesList[index][0], false]);
+        } else {
+          deleteField(db.gamesList.length-1);
+        }
         db.gamesList[index][1] = !db.gamesList[index][1];
       });
+      db.updateGamesDB();
     }
 
   //Delete Game
@@ -57,7 +68,7 @@ class _GameRoute extends State<GameRoute> {
     setState(() {
       db.gamesList.removeAt(index);
     });
-    db.updateDB("games", db.gamesList);
+    db.updateGamesDB();
   }
 
   @override

@@ -23,6 +23,13 @@ class _HomePageState extends State<HomePage> {
     if (_playersBox.get("players") != null) {
       db.loadDB("players");
     }
+    // if (_playersBox.get("games") != null) {
+    //   db.loadDB("games");
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => const GameRoute()),
+    //   );
+    // }
     super.initState();
   }
 
@@ -36,7 +43,7 @@ class _HomePageState extends State<HomePage> {
       _controller.clear();
     });
     Navigator.of(context).pop();
-    db.updateDB("players", db.playerList);
+    db.updatePlayersDB();
   }
   //Add new player
   void addPlayer() {
@@ -56,7 +63,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       db.playerList.removeAt(index);
     });
-    db.updateDB("players", db.playerList);
+    db.updatePlayersDB();
   }
 
   //Start Game

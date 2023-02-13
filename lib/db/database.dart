@@ -7,10 +7,22 @@ class PalyersDataBase {
   final _palyersBox = Hive.box('playersbox');
 
   void loadDB(String name) {
-    playerList = _palyersBox.get(name);
+    if (name == "players") {
+      playerList = _palyersBox.get(name);
+    } if (name == "games") {
+      gamesList = _palyersBox.get(name);
+    }
   }
 
-  void updateDB(String name, List listName) {
-    _palyersBox.put(name, listName);
+  void updatePlayersDB() {
+    _palyersBox.put("players", playerList);
+    if (_palyersBox.get("games") != null) {
+      gamesList.clear();
+      _palyersBox.put("games", null);
+    }
+  }
+
+  void updateGamesDB() {
+    _palyersBox.put("games", gamesList);
   }
 }

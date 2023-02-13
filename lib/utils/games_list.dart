@@ -18,12 +18,18 @@ class GamesList extends StatelessWidget {
     required this.onChanged,
   });
 
-  int colorCode(index, {rev = true}) {
+  Color? colorCode(index, {rev = true}) {
     int startValue = rev ? 700 : 100;
     int indexSign = rev ? -1 : 1;
     num iReturn = startValue+indexSign*index*100;
+    MaterialColor color;
+    if (gameCompleted == false) {
+      color = Colors.cyan;
+    } else {
+      color = Colors.red;
+    }
     if (index <= 6) {
-      return iReturn.toInt();
+      return color[iReturn.toInt()];
     }else{
       return colorCode(index-6, rev: !rev);
     }
@@ -43,16 +49,27 @@ class GamesList extends StatelessWidget {
       ),
       child: Container(
         height: 45,
-        color: Colors.cyan[colorCode(index)],
+        color: colorCode(index),
         child: Row(
+
           children: [
 
-            Checkbox(
-                value: gameCompleted,
-                onChanged: onChanged),
+            Expanded(
+                flex: 1,
+                child: Checkbox(
+                  value: gameCompleted,
+                  onChanged: onChanged,
+            )),
 
-            Center
-              (child: Text(playersNames)),
+            Expanded(
+              flex: 6,
+                child: Center(
+                    child: Text(playersNames)
+            )),
+
+            Expanded(
+              flex: 1, child: Container(),
+            )
 
           ],
         ),
