@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     if (_playersBox.get("players") != null) {
-      db.loadDB();
+      db.loadDB("players");
     }
     super.initState();
   }
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       _controller.clear();
     });
     Navigator.of(context).pop();
-    db.updateDB();
+    db.updateDB("players", db.playerList);
   }
   //Add new player
   void addPlayer() {
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       db.playerList.removeAt(index);
     });
-    db.updateDB();
+    db.updateDB("players", db.playerList);
   }
 
   //Start Game

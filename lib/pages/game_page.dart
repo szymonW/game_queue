@@ -18,7 +18,8 @@ class _GameRoute extends State<GameRoute> {
   @override
   void initState() {
     if (_playersBox.get("players") != null) {
-      db.loadDB();
+      db.loadDB("players");
+      createList();
     }
     super.initState();
   }
@@ -26,7 +27,6 @@ class _GameRoute extends State<GameRoute> {
   List createList () {
     List tempList = List.from(db.playerList);
     List tempEntries = [];
-    List entries = [];
     var proIterGames = 0;
     var revIterGames = 1;
 
@@ -38,20 +38,26 @@ class _GameRoute extends State<GameRoute> {
     }
     for (int i = 0; i < tempEntries.length; i++) {
       if (i % 2 == 0) {
-        entries.add(tempEntries[proIterGames++]);
+        db.gamesList.add([tempEntries[proIterGames++], false]);
       }else{
-        entries.add(tempEntries[tempEntries.length-revIterGames++]);
+        db.gamesList.add([tempEntries[tempEntries.length-revIterGames++], false]);
       }
     }
-    return entries;
+    return db.gamesList;
   }
+
+  void checkBoxChange(bool? value, int index){
+      setState(() {
+        db.gamesList[index][1] = !db.gamesList[index][1];
+      });
+    }
 
   //Delete Game
   void deleteField(int index){
     setState(() {
-      db.playerList.removeAt(index);
+      db.gamesList.removeAt(index);
     });
-    db.updateDB();
+    db.updateDB("games", db.gamesList);
   }
 
   @override
@@ -73,12 +79,14 @@ class _GameRoute extends State<GameRoute> {
         padding: const EdgeInsets.only(bottom: 50.0),
           child: ListView.builder(
               padding: const EdgeInsets.all(15),
-              itemCount: createList().length,
+              itemCount: db.gamesList.length,
               itemBuilder: (BuildContext context, int index) {
                 return GamesList(
-                  playersNames: '${createList()[index]}',
+                  playersNames: db.gamesList[index][0],
                   deleteGame: (context) => deleteField(index),
                   index: index,
+                  onChanged: (value) => checkBoxChange(value, index),
+                  gameCompleted: db.gamesList[index][1],
                 );
               }
           )

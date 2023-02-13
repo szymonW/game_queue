@@ -5,6 +5,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class GamesList extends StatelessWidget {
   final String playersNames;
   final int index;
+  final bool gameCompleted;
+  Function(bool?)? onChanged;
   Function(BuildContext)? deleteGame;
 
   GamesList({
@@ -12,6 +14,8 @@ class GamesList extends StatelessWidget {
     required this.playersNames,
     required this.deleteGame,
     required this.index,
+    required this.gameCompleted,
+    required this.onChanged,
   });
 
   int colorCode(index, {rev = true}) {
@@ -40,8 +44,18 @@ class GamesList extends StatelessWidget {
       child: Container(
         height: 45,
         color: Colors.cyan[colorCode(index)],
-        child: Center
-          (child: Text(playersNames)),
+        child: Row(
+          children: [
+
+            Checkbox(
+                value: gameCompleted,
+                onChanged: onChanged),
+
+            Center
+              (child: Text(playersNames)),
+
+          ],
+        ),
     )
     );
   }
