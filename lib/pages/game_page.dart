@@ -51,7 +51,7 @@ class _GameRoute extends State<GameRoute> {
     return db.gamesList;
   }
 
-  void checkBoxChange(bool? value, int index){
+  void checkBoxChange(int index){
       setState(() {
         if (db.gamesList[index][1] == false) {
           db.gamesList.add([db.gamesList[index][0], false]);
@@ -61,6 +61,15 @@ class _GameRoute extends State<GameRoute> {
         db.gamesList[index][1] = !db.gamesList[index][1];
       });
       db.updateGamesDB();
+    }
+
+    void nextGame(){
+      for (int i = 0; i < db.gamesList.length; i++) {
+        if (db.gamesList[i][1] == false) {
+          checkBoxChange(i);
+          break;
+        }
+      }
     }
 
   //Delete Game
@@ -80,6 +89,13 @@ class _GameRoute extends State<GameRoute> {
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("Next"),
+        backgroundColor: Colors.red[300],
+        icon: const Icon(Icons.change_circle_outlined),
+        onPressed: () => nextGame(),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -96,7 +112,7 @@ class _GameRoute extends State<GameRoute> {
                   playersNames: db.gamesList[index][0],
                   deleteGame: (context) => deleteField(index),
                   index: index,
-                  onChanged: (value) => checkBoxChange(value, index),
+                  onChanged: (value) => checkBoxChange(index),
                   gameCompleted: db.gamesList[index][1],
                 );
               }
