@@ -3,6 +3,7 @@ import 'package:game_queue/utils/players_list.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../db/database.dart';
 import '../utils/app_buttons.dart';
+import '../utils/empty_field_popup.dart';
 import '../utils/player_dialog_box.dart';
 import 'game_page.dart';
 
@@ -38,12 +39,20 @@ class _HomePageState extends State<HomePage> {
 
   //Save new player
   void saveNewPlayer(){
-    setState(() {
-      db.playerList.add([_controller.text]);
-      _controller.clear();
-    });
-    Navigator.of(context).pop();
-    db.updatePlayersDB();
+    if (_controller.text.isEmpty) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertFieldDialog(onOK: () => Navigator.of(context).pop());
+          });
+    } else {
+      setState(() {
+        db.playerList.add([_controller.text]);
+        _controller.clear();
+      });
+      Navigator.of(context).pop();
+      db.updatePlayersDB();
+    }
   }
   //Add new player
   void addPlayer() {
