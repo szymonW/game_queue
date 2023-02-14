@@ -20,6 +20,7 @@ class PlayerDialogBox extends StatelessWidget {
         child: Column(children: [
             //Add player name
             TextField(
+              textCapitalization: TextCapitalization.words,
               autofocus: true,
               controller: controller,
               // obscureText: true, <- for password
