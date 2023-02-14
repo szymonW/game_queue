@@ -24,14 +24,7 @@ class _HomePageState extends State<HomePage> {
     if (_playersBox.get("players") != null) {
       db.loadDB("players");
     }
-    // if (_playersBox.get("games") != null) {
-    //   db.loadDB("games");
-    //   Navigator.push(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => const GameRoute()),
-    //   );
-    // }
-    super.initState();
+      super.initState();
   }
 
   //text controller
