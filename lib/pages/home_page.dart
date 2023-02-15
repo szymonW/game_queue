@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   final _playersBox = Hive.box('playersBox');
   PalyersDataBase db = PalyersDataBase();
 
+  //AppBar button name
   String startButtonName = "";
 
   @override
@@ -26,9 +27,16 @@ class _HomePageState extends State<HomePage> {
     if (_playersBox.get("players") != null) {
       db.loadDB("players");
     }
-    startButtonName = _playersBox.get("games") == null ? "Start Game" : "Continue";
+
+    checkStartButtonName();
 
       super.initState();
+  }
+
+  //Check if AppBar button name is proper
+  String checkStartButtonName() {
+    startButtonName = _playersBox.get("games") == null ? "Start Game" : "Continue";
+    return startButtonName;
   }
 
   //text controller
@@ -48,6 +56,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         db.playerList.add([_controller.text]);
         _controller.clear();
+        checkStartButtonName();
       });
       Navigator.of(context).pop();
       db.updatePlayersDB();
@@ -70,6 +79,7 @@ class _HomePageState extends State<HomePage> {
   void deleteField(int index){
     setState(() {
       db.playerList.removeAt(index);
+      checkStartButtonName();
     });
     db.updatePlayersDB();
   }
@@ -85,6 +95,9 @@ class _HomePageState extends State<HomePage> {
                 onOK: () => Navigator.of(context).pop());
           });
     } else {
+      setState(() {
+        checkStartButtonName();
+      });
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const GameRoute()),
@@ -104,7 +117,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(7.0),
             child: AppBarButtons(
-              buttonName: startButtonName,
+              buttonName: checkStartButtonName(),
               onPressed: startGame,
             ),
           ),
