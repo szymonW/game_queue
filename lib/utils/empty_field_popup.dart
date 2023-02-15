@@ -3,10 +3,12 @@ import 'package:game_queue/utils/app_buttons.dart';
 
 class AlertFieldDialog extends StatelessWidget {
   VoidCallback onOK;
+  String alertText;
 
   AlertFieldDialog({
     super.key,
-    required this.onOK
+    required this.onOK,
+    required this.alertText
   });
 
   @override
@@ -20,7 +22,7 @@ class AlertFieldDialog extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text("Can't save empty name field",
+                  Text(alertText,
                     textAlign: TextAlign.center,),
                   Container(
                       padding: const EdgeInsets.only(top: 20.0),

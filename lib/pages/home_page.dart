@@ -19,11 +19,15 @@ class _HomePageState extends State<HomePage> {
   final _playersBox = Hive.box('playersBox');
   PalyersDataBase db = PalyersDataBase();
 
+  String startButtonName = "";
+
   @override
   void initState() {
     if (_playersBox.get("players") != null) {
       db.loadDB("players");
     }
+    startButtonName = _playersBox.get("games") == null ? "Start Game" : "Continue";
+
       super.initState();
   }
 
@@ -36,7 +40,9 @@ class _HomePageState extends State<HomePage> {
       showDialog(
           context: context,
           builder: (context) {
-            return AlertFieldDialog(onOK: () => Navigator.of(context).pop());
+            return AlertFieldDialog(
+                alertText: "Can't save empty name field",
+                onOK: () => Navigator.of(context).pop());
           });
     } else {
       setState(() {
@@ -70,10 +76,20 @@ class _HomePageState extends State<HomePage> {
 
   //Start Game
   void startGame(){
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const GameRoute()),
-    );
+    if (db.playerList.length <= 1) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertFieldDialog(
+                alertText: "Add at least two players",
+                onOK: () => Navigator.of(context).pop());
+          });
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const GameRoute()),
+      );
+    }
   }
 
   @override
@@ -88,7 +104,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(7.0),
             child: AppBarButtons(
-              buttonName: "Start Game",
+              buttonName: startButtonName,
               onPressed: startGame,
             ),
           ),
