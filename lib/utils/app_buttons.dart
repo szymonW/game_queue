@@ -35,8 +35,10 @@ class AppBarButtons extends StatelessWidget {
         children: <Widget>[
           Positioned.fill(
             child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
+              decoration: BoxDecoration(
+                border: Border.all(width: 1.0), //Border.all
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                gradient: const LinearGradient(
                   colors: <Color>[
                     Colors.cyan,
                     Color(0xFF4DD0E1),
