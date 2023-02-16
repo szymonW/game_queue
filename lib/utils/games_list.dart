@@ -6,6 +6,7 @@ class GamesList extends StatelessWidget {
   final String playersNames;
   final int index;
   final bool gameCompleted;
+  Color? colorCode;
   Function(bool?)? onChanged;
   Function(BuildContext)? deleteGame;
 
@@ -14,26 +15,10 @@ class GamesList extends StatelessWidget {
     required this.playersNames,
     required this.deleteGame,
     required this.index,
+    required this.colorCode,
     required this.gameCompleted,
     required this.onChanged,
   });
-
-  Color? colorCode(index, {rev = true}) {
-    int startValue = rev ? 700 : 100;
-    int indexSign = rev ? -1 : 1;
-    num iReturn = startValue+indexSign*index*100;
-    MaterialColor color;
-    if (gameCompleted == false) {
-      color = Colors.cyan;
-    } else {
-      color = Colors.red;
-    }
-    if (index <= 6) {
-      return color[iReturn.toInt()];
-    }else{
-      return colorCode(index-6, rev: !rev);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +34,7 @@ class GamesList extends StatelessWidget {
       ),
       child: Container(
         height: 45,
-        color: colorCode(index),
+        color: colorCode,
         child: Row(
 
           children: [

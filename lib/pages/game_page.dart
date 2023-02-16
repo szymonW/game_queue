@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../db/database.dart';
+import '../utils/app_buttons.dart';
 import '../utils/games_list.dart';
 
 class GameRoute extends StatefulWidget {
@@ -42,11 +43,12 @@ class _GameRoute extends State<GameRoute> {
     }
     for (int i = 0; i < tempEntries.length; i++) {
       if (i % 2 == 0) {
-        db.gamesList.add([tempEntries[proIterGames++], false]);
+        db.gamesList.add([tempEntries[proIterGames++], false, false]);
       }else{
-        db.gamesList.add([tempEntries[tempEntries.length-revIterGames++], false]);
+        db.gamesList.add([tempEntries[tempEntries.length-revIterGames++], false, false]);
       }
     }
+    db.gamesList[0][2] = true;
     db.updateGamesDB();
     return db.gamesList;
   }
@@ -54,11 +56,20 @@ class _GameRoute extends State<GameRoute> {
   void checkBoxChange(int index){
       setState(() {
         if (db.gamesList[index][1] == false) {
-          db.gamesList.add([db.gamesList[index][0], false]);
+          db.gamesList.add([db.gamesList[index][0], false, false]);
         } else {
           deleteField(db.gamesList.length-1);
         }
         db.gamesList[index][1] = !db.gamesList[index][1];
+        if (db.gamesList[index][2]==true) {
+          for (var i = index+1; i < db.gamesList.length; i++) {
+            if (db.gamesList[i][1] == false){
+              db.gamesList[i][2] = true;
+              break;
+            }
+          }
+          db.gamesList[index][2] = false;
+        }
       });
       db.updateGamesDB();
     }
@@ -80,14 +91,52 @@ class _GameRoute extends State<GameRoute> {
     db.updateGamesDB();
   }
 
+  void deleteAll() {
+    setState(() {
+      db.gamesList.clear();
+      createList();
+    });
+    db.updateGamesDB();
+  }
+
+  // Add colors to tame list
+  Color? colorCode(index, gameCompleted, {rev = true, realIndex = -1}) {
+    realIndex = realIndex == -1 ? index : realIndex;
+    int startValue = rev ? 700 : 100;
+    int indexSign = rev ? -1 : 1;
+    num iReturn = startValue+indexSign*index*100;
+    MaterialColor color;
+    if (gameCompleted == false) {
+      color = Colors.cyan;
+    } else {
+      color = Colors.red;
+    }
+    if (db.gamesList[realIndex][2]){
+      return Colors.green;
+    } if (index <= 6) {
+      return color[iReturn.toInt()];
+    }else{
+      return colorCode(index-6, gameCompleted, rev: !rev, realIndex: realIndex);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-        title: const Text('Game in progress'),
+        title: const Text('In progress'),
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(7.0),
+            child: AppBarButtons(
+              buttonName: "Reset Game",
+              onPressed: deleteAll,
+            ),
+          ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
@@ -112,6 +161,7 @@ class _GameRoute extends State<GameRoute> {
                   playersNames: db.gamesList[index][0],
                   deleteGame: (context) => deleteField(index),
                   index: index,
+                  colorCode: colorCode(index, db.gamesList[index][1]),
                   onChanged: (value) => checkBoxChange(index),
                   gameCompleted: db.gamesList[index][1],
                 );
