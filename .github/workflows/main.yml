@@ -18,7 +18,7 @@ jobs:
           flutter-version: '3.7.3'
       - run: flutter pub get
 #     Todo: - run: flutter test
-      - run: flutter build apk --debug --split-per-abi
+      - run: flutter build apk --split-per-abi
       - run: |
           flutter build apk --release
           cd build/app/outputs/flutter-apk
