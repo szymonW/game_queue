@@ -17,6 +17,9 @@ jobs:
         with:
           flutter-version: '3.7.3'
       - run: flutter pub get
+      - run: ls -al
+      - run: flutter create -t app ./
+      - run: ls -al
 #     Todo: - run: flutter test
 #      - run: flutter build apk --split-per-abi
       - run: |
