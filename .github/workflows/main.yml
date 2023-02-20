@@ -18,20 +18,21 @@ jobs:
           flutter-version: '3.7.3'
       - run: flutter pub get
 #     Todo: - run: flutter test
-      - run: flutter build apk --split-per-abi
+#      - run: flutter build apk --split-per-abi
       - run: |
           flutter build apk --release
           cd build/app/outputs/flutter-apk
           mkdir Payload
           cd Payload
 #          Todo: change part of create package:
-          ln -s ../Runner.app
-          cd ..
-          zip -r app.ipa Payload
+#          ln -s ../Runner.app
+#          cd ..
+#          zip -r app.ipa Payload
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
           #          Todo: change it regarding to created package:
-          artifacts: "build/app/outputs/apk/debug/*,build/ios/iphoneos/app.ipa"
+          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
+#          artifacts: "build/app/outputs/flutter-apk/*,build/ios/iphoneos/app.ipa"
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
