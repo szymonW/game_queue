@@ -3,8 +3,8 @@ on:
   # push to master trigger creating release version
   pull_request:
 jobs:
-  runs-on: ubuntu-latest
   build:
+    runs-on: ubuntu-latest
     name: Build
     steps:
       - uses: actions/checkout@v1
@@ -20,11 +20,18 @@ jobs:
       - run: ls -al
       - run: |
           flutter build apk --release
+      - uses: actions/upload-artifact@master
+        with:
+          name: app-release
+          path: build/app/outputs/flutter-apk/app-release.apk
   tests:
     name: Tests
     needs: build
+    runs-on: ubuntu-latest
     steps:
-      - run: |
-          cd build/app/outputs/flutter-apk
-          ls -al
+      - uses: actions/checkout@master
+      - uses: actions/download-artifact@master
+          with:
+            name: app-release
+      - run: ls -al
 # Line added for test perpuses
