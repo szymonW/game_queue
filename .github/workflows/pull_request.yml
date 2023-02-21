@@ -28,3 +28,4 @@ jobs:
         - run: |
             cd build/app/outputs/flutter-apk
             ls -al
+  # Line added for test perpuses
