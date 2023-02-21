@@ -42,19 +42,36 @@ class _HomePageState extends State<HomePage> {
   //text controller
   final _controller = TextEditingController();
 
+  bool checkDuplicatedName(newPlayer){
+    for (var i in db.playerList){
+      if (i[0] == newPlayer){return true;}
+    }
+    return false;
+  }
+
+  //Raise information alert with OK button
+  void okAlertDialog(String text){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertFieldDialog(
+              alertText: text,
+              onOK: () => Navigator.of(context).pop());
+        });
+  }
+
   //Save new player
   void saveNewPlayer(){
+    String newPlayer = _controller.text.trim();
     if (_controller.text.isEmpty) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertFieldDialog(
-                alertText: "Can't save empty name field",
-                onOK: () => Navigator.of(context).pop());
-          });
+      okAlertDialog("Can't save empty name field");
+    } else if (newPlayer.isEmpty) {
+      okAlertDialog("Can't add just a space");
+    } else if (checkDuplicatedName(newPlayer)) {
+      okAlertDialog("This player already exists");
     } else {
       setState(() {
-        db.playerList.add([_controller.text]);
+        db.playerList.add([newPlayer.toString()]);
         _controller.clear();
         checkStartButtonName();
       });
@@ -62,6 +79,14 @@ class _HomePageState extends State<HomePage> {
       db.updatePlayersDB();
     }
   }
+
+  void cancelNewPlayer() {
+    setState(() {
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+  }
+
   //Add new player
   void addPlayer() {
     showDialog(
@@ -69,7 +94,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context) {
           return PlayerDialogBox(
             controller: _controller,
-            onCancel: () => Navigator.of(context).pop(),
+            onCancel: cancelNewPlayer,
             onSave: saveNewPlayer,
           );
     });
@@ -87,13 +112,7 @@ class _HomePageState extends State<HomePage> {
   //Start Game
   void startGame(){
     if (db.playerList.length <= 1) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertFieldDialog(
-                alertText: "Add at least two players",
-                onOK: () => Navigator.of(context).pop());
-          });
+      okAlertDialog("Add at least two players");
     } else {
       setState(() {
         checkStartButtonName();

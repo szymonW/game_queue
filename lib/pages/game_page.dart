@@ -57,33 +57,45 @@ class _GameRoute extends State<GameRoute> {
       setState(() {
         if (db.gamesList[index][1] == false) {
           db.gamesList.add([db.gamesList[index][0], false, false]);
+          if (db.gamesList[index][2] == true) {
+            for (var i = index + 1; i < db.gamesList.length; i++) {
+              if (db.gamesList[i][1] == false) {
+                db.gamesList[i][2] = true;
+                break;
+              }
+            }
+            db.gamesList[index][2] = false;
+          }
         } else {
-          deleteField(db.gamesList.length-1);
-        }
-        db.gamesList[index][1] = !db.gamesList[index][1];
-        if (db.gamesList[index][2]==true) {
-          for (var i = index+1; i < db.gamesList.length; i++) {
-            if (db.gamesList[i][1] == false){
-              db.gamesList[i][2] = true;
+          for (var i = 0; i < db.gamesList.length; i++) {
+            if (db.gamesList[i][2] == true) {
+              db.gamesList[i][2] = false;
               break;
             }
           }
-          db.gamesList[index][2] = false;
-        }
+            db.gamesList[index][2] = true;
+          for (var i = index + 1; i < db.gamesList.length; i++) {
+            if (db.gamesList[i][0] == db.gamesList[index][0] && db.gamesList[i][1]==false) {
+              deleteField(i);
+              break;
+            }
+          }
+          }
+          db.gamesList[index][1] = !db.gamesList[index][1];
       });
       db.updateGamesDB();
     }
 
     void nextGame(){
       for (int i = 0; i < db.gamesList.length; i++) {
-        if (db.gamesList[i][1] == false) {
+        if (db.gamesList[i][2] == true) {
           checkBoxChange(i);
           break;
         }
       }
     }
 
-  //Delete Game
+  //Delete game
   void deleteField(int index){
     setState(() {
       db.gamesList.removeAt(index);
@@ -91,6 +103,7 @@ class _GameRoute extends State<GameRoute> {
     db.updateGamesDB();
   }
 
+  //Delete all games
   void deleteAll() {
     setState(() {
       db.gamesList.clear();
@@ -159,7 +172,6 @@ class _GameRoute extends State<GameRoute> {
               itemBuilder: (BuildContext context, int index) {
                 return GamesList(
                   playersNames: db.gamesList[index][0],
-                  deleteGame: (context) => deleteField(index),
                   index: index,
                   colorCode: colorCode(index, db.gamesList[index][1]),
                   onChanged: (value) => checkBoxChange(index),

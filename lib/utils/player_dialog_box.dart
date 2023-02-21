@@ -16,17 +16,19 @@ class PlayerDialogBox extends StatelessWidget {
     return AlertDialog(
       backgroundColor: Theme.of(context).primaryColor,
       content: SizedBox(
-        height: 120,
+        height: 140,
         child: Column(children: [
             //Add player name
             TextField(
               textCapitalization: TextCapitalization.words,
               autofocus: true,
+              maxLength: 20,
               controller: controller,
               // obscureText: true, <- for password
               cursorColor: Colors.black,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(),
                 hintText: 'Player name',
               ),
             ),
