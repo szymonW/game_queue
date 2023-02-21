@@ -1,12 +1,10 @@
+name: "Pull Request"
 on:
   # push to master trigger creating release version
-  push:
-    branches:
-      - master
-name: "Build and release"
+  pull_request:
 jobs:
   build:
-    name: Build and release
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -22,10 +20,11 @@ jobs:
       - run: ls -al
       - run: |
           flutter build apk --release
-          cd build/app/outputs/flutter-apk
-      - name: Push to Releases
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
-          tag: v1.0.${{ github.run_number }}
-          token: ${{ secrets.TOKEN }}
+    tests:
+      name: Tests
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - run: |
+            cd build/app/outputs/flutter-apk
+            ls -al
