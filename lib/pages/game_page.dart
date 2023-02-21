@@ -83,7 +83,7 @@ class _GameRoute extends State<GameRoute> {
       }
     }
 
-  //Delete Game
+  //Delete game
   void deleteField(int index){
     setState(() {
       db.gamesList.removeAt(index);
@@ -91,6 +91,7 @@ class _GameRoute extends State<GameRoute> {
     db.updateGamesDB();
   }
 
+  //Delete all games
   void deleteAll() {
     setState(() {
       db.gamesList.clear();
@@ -159,7 +160,6 @@ class _GameRoute extends State<GameRoute> {
               itemBuilder: (BuildContext context, int index) {
                 return GamesList(
                   playersNames: db.gamesList[index][0],
-                  deleteGame: (context) => deleteField(index),
                   index: index,
                   colorCode: colorCode(index, db.gamesList[index][1]),
                   onChanged: (value) => checkBoxChange(index),

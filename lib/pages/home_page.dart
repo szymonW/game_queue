@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
 
   //Save new player
   void saveNewPlayer(){
+    String newPlayer = _controller.text.trim();
     if (_controller.text.isEmpty) {
       showDialog(
           context: context,
@@ -52,9 +53,17 @@ class _HomePageState extends State<HomePage> {
                 alertText: "Can't save empty name field",
                 onOK: () => Navigator.of(context).pop());
           });
+    } if (newPlayer.isEmpty) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertFieldDialog(
+                alertText: "Can't add just a space",
+                onOK: () => Navigator.of(context).pop());
+          });
     } else {
       setState(() {
-        db.playerList.add([_controller.text]);
+        db.playerList.add([newPlayer]);
         _controller.clear();
         checkStartButtonName();
       });
@@ -62,6 +71,14 @@ class _HomePageState extends State<HomePage> {
       db.updatePlayersDB();
     }
   }
+
+  void cancelNewPlayer() {
+    setState(() {
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+  }
+
   //Add new player
   void addPlayer() {
     showDialog(
@@ -69,7 +86,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context) {
           return PlayerDialogBox(
             controller: _controller,
-            onCancel: () => Navigator.of(context).pop(),
+            onCancel: cancelNewPlayer,
             onSave: saveNewPlayer,
           );
     });
