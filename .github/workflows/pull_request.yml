@@ -20,12 +20,12 @@ jobs:
       - run: ls -al
       - run: |
           flutter build apk --release
-    tests:
-      name: Tests
-      needs: build
-      runs-on: ubuntu-latest
-      steps:
-        - run: |
-            cd build/app/outputs/flutter-apk
-            ls -al
-  # Line added for test perpuses
+  tests:
+    name: Tests
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          cd build/app/outputs/flutter-apk
+          ls -al
+# Line added for test perpuses
