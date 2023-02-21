@@ -28,17 +28,11 @@ class PlayersList extends StatelessWidget {
           children: [
             // Todo: Use this
             //  https://stackoverflow.com/questions/53639066/flutter-mask-a-circle-into-a-container
-            CustomSlidableAction(onPressed: deletePlayer,
-              borderRadius: BorderRadius.only(
-                  topRight:  Radius.circular(outsidePadding),
-                  bottomRight: Radius.circular(outsidePadding)),
-              backgroundColor: Colors.red.shade400,
-              child: SlidableAction(
-                    onPressed: deletePlayer,
-                    icon: Icons.delete,
-                    label: "Delete",
-                    backgroundColor: Colors.red.shade400),
-            ),
+            SlidableAction(
+                  onPressed: deletePlayer,
+                  icon: Icons.delete,
+                  label: "Delete",
+                  backgroundColor: Colors.red.shade400),
           ],
         ),
         child: Container(
