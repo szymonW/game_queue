@@ -3,9 +3,9 @@ on:
   # push to master trigger creating release version
   pull_request:
 jobs:
+  runs-on: ubuntu-latest
   build:
     name: Build
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-java@v1
@@ -23,7 +23,6 @@ jobs:
   tests:
     name: Tests
     needs: build
-    runs-on: ubuntu-latest
     steps:
       - run: |
           cd build/app/outputs/flutter-apk
