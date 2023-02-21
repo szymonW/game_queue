@@ -57,26 +57,38 @@ class _GameRoute extends State<GameRoute> {
       setState(() {
         if (db.gamesList[index][1] == false) {
           db.gamesList.add([db.gamesList[index][0], false, false]);
+          if (db.gamesList[index][2] == true) {
+            for (var i = index + 1; i < db.gamesList.length; i++) {
+              if (db.gamesList[i][1] == false) {
+                db.gamesList[i][2] = true;
+                break;
+              }
+            }
+            db.gamesList[index][2] = false;
+          }
         } else {
-          deleteField(db.gamesList.length-1);
-        }
-        db.gamesList[index][1] = !db.gamesList[index][1];
-        if (db.gamesList[index][2]==true) {
-          for (var i = index+1; i < db.gamesList.length; i++) {
-            if (db.gamesList[i][1] == false){
-              db.gamesList[i][2] = true;
+          for (var i = 0; i < db.gamesList.length; i++) {
+            if (db.gamesList[i][2] == true) {
+              db.gamesList[i][2] = false;
               break;
             }
           }
-          db.gamesList[index][2] = false;
-        }
+            db.gamesList[index][2] = true;
+          for (var i = index + 1; i < db.gamesList.length; i++) {
+            if (db.gamesList[i][0] == db.gamesList[index][0] && db.gamesList[i][1]==false) {
+              deleteField(i);
+              break;
+            }
+          }
+          }
+          db.gamesList[index][1] = !db.gamesList[index][1];
       });
       db.updateGamesDB();
     }
 
     void nextGame(){
       for (int i = 0; i < db.gamesList.length; i++) {
-        if (db.gamesList[i][1] == false) {
+        if (db.gamesList[i][2] == true) {
           checkBoxChange(i);
           break;
         }

@@ -49,33 +49,26 @@ class _HomePageState extends State<HomePage> {
     return false;
   }
 
+  //Raise information alert with OK button
+  void okAlertDialog(String text){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertFieldDialog(
+              alertText: text,
+              onOK: () => Navigator.of(context).pop());
+        });
+  }
+
   //Save new player
   void saveNewPlayer(){
     String newPlayer = _controller.text.trim();
     if (_controller.text.isEmpty) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertFieldDialog(
-                alertText: "Can't save empty name field",
-                onOK: () => Navigator.of(context).pop());
-          });
+      okAlertDialog("Can't save empty name field");
     } else if (newPlayer.isEmpty) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertFieldDialog(
-                alertText: "Can't add just a space",
-                onOK: () => Navigator.of(context).pop());
-          });
+      okAlertDialog("Can't add just a space");
     } else if (checkDuplicatedName(newPlayer)) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertFieldDialog(
-                alertText: "This player already exists",
-                onOK: () => Navigator.of(context).pop());
-          });
+      okAlertDialog("This player already exists");
     } else {
       setState(() {
         db.playerList.add([newPlayer.toString()]);
@@ -119,13 +112,7 @@ class _HomePageState extends State<HomePage> {
   //Start Game
   void startGame(){
     if (db.playerList.length <= 1) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertFieldDialog(
-                alertText: "Add at least two players",
-                onOK: () => Navigator.of(context).pop());
-          });
+      okAlertDialog("Add at least two players");
     } else {
       setState(() {
         checkStartButtonName();
