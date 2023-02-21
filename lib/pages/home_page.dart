@@ -42,6 +42,13 @@ class _HomePageState extends State<HomePage> {
   //text controller
   final _controller = TextEditingController();
 
+  bool checkDuplicatedName(newPlayer){
+    for (var i in db.playerList){
+      if (i[0] == newPlayer){return true;}
+    }
+    return false;
+  }
+
   //Save new player
   void saveNewPlayer(){
     String newPlayer = _controller.text.trim();
@@ -53,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                 alertText: "Can't save empty name field",
                 onOK: () => Navigator.of(context).pop());
           });
-    } if (newPlayer.isEmpty) {
+    } else if (newPlayer.isEmpty) {
       showDialog(
           context: context,
           builder: (context) {
@@ -61,9 +68,17 @@ class _HomePageState extends State<HomePage> {
                 alertText: "Can't add just a space",
                 onOK: () => Navigator.of(context).pop());
           });
+    } else if (checkDuplicatedName(newPlayer)) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertFieldDialog(
+                alertText: "This player already exists",
+                onOK: () => Navigator.of(context).pop());
+          });
     } else {
       setState(() {
-        db.playerList.add([newPlayer]);
+        db.playerList.add([newPlayer.toString()]);
         _controller.clear();
         checkStartButtonName();
       });
