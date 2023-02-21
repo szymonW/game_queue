@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - uses: actions/download-artifact@master
-          with:
-            name: app-release
+        with:
+          name: app-release
       - run: ls -al
 # Line added for test perpuses
