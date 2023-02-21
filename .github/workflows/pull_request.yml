@@ -4,8 +4,8 @@ on:
   pull_request:
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
+    name: Build
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-java@v1
@@ -20,11 +20,18 @@ jobs:
       - run: ls -al
       - run: |
           flutter build apk --release
-    tests:
-      name: Tests
-      needs: build
-      runs-on: ubuntu-latest
-      steps:
-        - run: |
-            cd build/app/outputs/flutter-apk
-            ls -al
+      - uses: actions/upload-artifact@master
+        with:
+          name: app-release
+          path: build/app/outputs/flutter-apk/app-release.apk
+  tests:
+    name: Tests
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/download-artifact@master
+        with:
+          name: app-release
+      - run: ls -al
+# Line added for test perpuses
