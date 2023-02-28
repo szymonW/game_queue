@@ -22,7 +22,7 @@ void main() {
     await setUpTestHive();
   });
 
-  testWidgets('opened box is returned if it exists', (tester) async {
+  testWidgets('Smoke test - openBox works', (tester) async {
     await tester.runAsync(() => Hive.openBox('playersBox'));
       await tester.pumpWidget(const HomePage()).whenComplete(() => Hive.openBox('playersBox'));
     await Hive.close();
