@@ -143,7 +143,7 @@ class _GameRoute extends State<GameRoute> {
         backgroundColor: Theme.of(context).primaryColor,
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(7.0),
+            padding: const EdgeInsets.only(top: 5, bottom: 10),
             child: AppBarButtons(
               buttonName: "Reset Game",
               onPressed: deleteAll,
