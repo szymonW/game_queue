@@ -151,10 +151,9 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20)
           ),
-        // color: Colors.cyan,
-        color: Color(0xFFACFFFF),
+          color: Color(0xFFACFFFF),
         ),
-        padding: const EdgeInsets.only(bottom: 50.0),
+        // padding: const EdgeInsets.only(bottom: 50.0),
         //Build list of players
         child: ListView.builder(
           itemCount: db.playerList.length,
