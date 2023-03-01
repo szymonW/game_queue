@@ -12,7 +12,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
         onPressed: onPressed,
-        color: Theme.of(context).primaryColor,
+        color: Colors.white,
         child: Text(buttonName),
     );
   }
@@ -37,12 +37,11 @@ class AppBarButtons extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(width: 1.0), //Border.all
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
                 gradient: const LinearGradient(
                   colors: <Color>[
-                    Colors.cyan,
-                    Color(0xFF4DD0E1),
-                    Color(0xFFACFFFF),
+                    Colors.white,
+                    Colors.white,
                   ],
                 ),
               ),
@@ -50,7 +49,7 @@ class AppBarButtons extends StatelessWidget {
           ),
           TextButton(
             style: TextButton.styleFrom(
-              foregroundColor: Colors.black87,
+              foregroundColor: Colors.black,
               padding: const EdgeInsets.all(8.0),
               textStyle: const TextStyle(fontSize: 18),
             ),

@@ -14,18 +14,21 @@ class PlayerDialogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.white70,
       content: SizedBox(
         height: 140,
-        child: Column(children: [
+        child: Column(
+            children: [
             //Add player name
             TextField(
               textCapitalization: TextCapitalization.words,
               autofocus: true,
               maxLength: 20,
+              textAlign: TextAlign.center,
               controller: controller,
               // obscureText: true, <- for password
-              cursorColor: Colors.black,
+              cursorColor: Colors.white,
+              // textDirection: ,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 focusedBorder: OutlineInputBorder(),
@@ -33,7 +36,7 @@ class PlayerDialogBox extends StatelessWidget {
               ),
             ),
             //Buttons (Cancel & Save)
-          Padding(padding: const EdgeInsets.only(top: 5.0),
+          Padding(padding: const EdgeInsets.only(top: 7.0),
               child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

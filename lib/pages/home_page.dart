@@ -134,7 +134,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).primaryColor,
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(7.0),
+            padding: const EdgeInsets.only(top: 5, bottom: 10),
             child: AppBarButtons(
               buttonName: checkStartButtonName(),
               onPressed: startGame,
@@ -149,9 +149,12 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20)
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+            bottomLeft: Radius.circular(15),
+            bottomRight: Radius.circular(15),
           ),
-          color: Color(0xFFACFFFF),
+          color: Colors.white,
         ),
         // padding: const EdgeInsets.only(bottom: 50.0),
         //Build list of players

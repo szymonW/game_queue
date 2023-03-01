@@ -35,7 +35,7 @@ class GamesList extends StatelessWidget {
           Expanded(
             flex: 6,
               child: Center(
-                  child: Text(playersNames)
+                  child: Text(playersNames, style: const TextStyle(color: Colors.black),)
           )),
 
           Expanded(

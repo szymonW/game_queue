@@ -22,7 +22,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
-      theme: ThemeData(primarySwatch: Colors.cyan)
+      theme: ThemeData(
+        primaryColor: Colors.black,
+        textTheme: const TextTheme(bodyMedium:
+        TextStyle(color: Colors.white)),
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+            secondary: Colors.black,
+        ),
+      )
     );
   }
 }

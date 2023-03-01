@@ -154,16 +154,19 @@ class _GameRoute extends State<GameRoute> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Next"),
-        backgroundColor: Colors.red[300],
+        backgroundColor: Colors.red[800],
         icon: const Icon(Icons.change_circle_outlined),
         onPressed: () => nextGame(),
       ),
       body: Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20)
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+            bottomLeft: Radius.circular(15),
+            bottomRight: Radius.circular(15),
           ),
-          color: Color(0xFFACFFFF),
+          color: Colors.white,
         ),
         padding: const EdgeInsets.only(bottom: 50.0),
           child: ListView.builder(

@@ -14,7 +14,7 @@ class AlertFieldDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        backgroundColor: Colors.cyan[100],
+        backgroundColor: Colors.grey[300],
         content: Container(
             padding: const EdgeInsets.all(0.0),
             child: SizedBox(
@@ -22,8 +22,8 @@ class AlertFieldDialog extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(alertText,
-                    textAlign: TextAlign.center,),
+                  Text(alertText, style: const TextStyle(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center),
                   Container(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: AppButton(buttonName: 'OK', onPressed: onOK,))
