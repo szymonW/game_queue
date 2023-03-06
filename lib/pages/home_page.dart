@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:game_queue/utils/players_list.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -51,13 +52,11 @@ class _HomePageState extends State<HomePage> {
 
   //Raise information alert with OK button
   void okAlertDialog(String text){
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertFieldDialog(
-              alertText: text,
-              onOK: () => Navigator.of(context).pop());
-        });
+    Flushbar(
+      backgroundColor: Colors.red,
+      message: text,
+      duration: const Duration(seconds: 3),
+    ).show(context);
   }
 
   //Save new player
