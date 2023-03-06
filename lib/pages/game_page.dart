@@ -38,7 +38,7 @@ class _GameRoute extends State<GameRoute> {
     for (var i in db.playerList) {
       tempList.removeAt(0);
       for (var j in tempList) {
-        tempEntries.add('${i[0]} vs ${j[0]}');
+        tempEntries.add('🎱 ${i[0]} vs ${j[0]}');
       }
     }
     for (int i = 0; i < tempEntries.length; i++) {
@@ -56,7 +56,13 @@ class _GameRoute extends State<GameRoute> {
   void checkBoxChange(int index){
       setState(() {
         if (db.gamesList[index][1] == false) {
-          db.gamesList.add([db.gamesList[index][0], false, false]);
+          var gamename = db.gamesList[index][0];
+          if (gamename.substring(0, 2) == "🎱"){
+            gamename = "${gamename.substring(3)} 🎱";
+          } else {
+            gamename = "🎱 ${gamename.substring(0, gamename.length-2)}";
+          }
+          db.gamesList.add([gamename, false, false]);
           if (db.gamesList[index][2] == true) {
             for (var i = index + 1; i < db.gamesList.length; i++) {
               if (db.gamesList[i][1] == false) {
