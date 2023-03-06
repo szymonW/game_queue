@@ -36,7 +36,7 @@ class AppBarButtons extends StatelessWidget {
           Positioned.fill(
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(width: 1.0), //Border.all
+                border: Border.all(width: 0.0), //Border.all
                 borderRadius: const BorderRadius.all(Radius.circular(15)),
                 gradient: const LinearGradient(
                   colors: <Color>[
@@ -50,7 +50,11 @@ class AppBarButtons extends StatelessWidget {
           TextButton(
             style: TextButton.styleFrom(
               foregroundColor: Colors.black,
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(
+                  top: 10,
+                  bottom: 10,
+                  left: 19,
+                  right: 19),
               textStyle: const TextStyle(fontSize: 18),
             ),
             onPressed: onPressed,

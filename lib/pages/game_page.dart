@@ -143,7 +143,9 @@ class _GameRoute extends State<GameRoute> {
         backgroundColor: Theme.of(context).primaryColor,
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 10),
+            padding: const EdgeInsets.only(
+                top: 9,
+                bottom: 6),
             child: AppBarButtons(
               buttonName: "Reset Game",
               onPressed: deleteAll,
@@ -154,7 +156,7 @@ class _GameRoute extends State<GameRoute> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Next"),
-        backgroundColor: Colors.red[800],
+        backgroundColor: Colors.black,
         icon: const Icon(Icons.change_circle_outlined),
         onPressed: () => nextGame(),
       ),
@@ -168,7 +170,7 @@ class _GameRoute extends State<GameRoute> {
           ),
           color: Colors.white,
         ),
-        padding: const EdgeInsets.only(bottom: 50.0),
+        padding: const EdgeInsets.only(bottom: 40.0),
           child: ListView.builder(
               padding: const EdgeInsets.all(15),
               itemCount: db.gamesList.length,
