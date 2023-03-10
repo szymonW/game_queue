@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../db/database.dart';
 import '../utils/app_buttons.dart';
 import '../utils/games_list.dart';
@@ -12,9 +13,19 @@ class GameRoute extends StatefulWidget {
 }
 
 class _GameRoute extends State<GameRoute> {
+  final ItemScrollController _itemScrollController = ItemScrollController();
+
   //reference to hive box
   final _playersBox = Hive.box('playersBox');
   PalyersDataBase db = PalyersDataBase();
+
+  void _animateToIndex(int index) {
+    _itemScrollController.scrollTo(
+      index: index,
+      duration: const Duration(seconds: 3),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
 
   @override
   void initState() {
@@ -54,7 +65,7 @@ class _GameRoute extends State<GameRoute> {
   }
 
   void checkBoxChange(int index){
-      setState(() {
+    setState(() {
         if (db.gamesList[index][1] == false) {
           var gamename = db.gamesList[index][0];
           if (gamename.substring(0, 2) == "🎱"){
@@ -66,6 +77,7 @@ class _GameRoute extends State<GameRoute> {
           if (db.gamesList[index][2] == true) {
             for (var i = index + 1; i < db.gamesList.length; i++) {
               if (db.gamesList[i][1] == false) {
+                _animateToIndex(i);
                 db.gamesList[i][2] = true;
                 break;
               }
@@ -177,7 +189,8 @@ class _GameRoute extends State<GameRoute> {
           color: Colors.white,
         ),
         padding: const EdgeInsets.only(bottom: 40.0),
-          child: ListView.builder(
+          child: ScrollablePositionedList.builder(
+              itemScrollController: _itemScrollController,
               padding: const EdgeInsets.all(15),
               itemCount: db.gamesList.length,
               itemBuilder: (BuildContext context, int index) {
