@@ -22,7 +22,7 @@ class PlayerDialogBox extends StatelessWidget {
             //Add player name
             TextField(
               textCapitalization: TextCapitalization.words,
-              textInputAction: TextInputAction.go,
+              textInputAction: TextInputAction.done,
               keyboardType: TextInputType.name,
               autofocus: true,
               maxLength: 12,
