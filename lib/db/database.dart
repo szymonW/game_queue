@@ -1,5 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
+// Todo: Refactor DB!
 class PalyersDataBase {
   List playerList = [];
   List gamesList = [];

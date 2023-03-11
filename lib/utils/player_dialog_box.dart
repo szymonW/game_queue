@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:game_queue/utils/app_buttons.dart';
 
 class PlayerDialogBox extends StatelessWidget {
-  final controller;
+  final TextEditingController controller;
   VoidCallback onSave;
   VoidCallback onCancel;
 
@@ -22,11 +22,13 @@ class PlayerDialogBox extends StatelessWidget {
             //Add player name
             TextField(
               textCapitalization: TextCapitalization.words,
+              textInputAction: TextInputAction.go,
+              keyboardType: TextInputType.name,
               autofocus: true,
-              maxLength: 20,
+              maxLength: 12,
               textAlign: TextAlign.center,
               controller: controller,
-              // obscureText: true, <- for password
+              onEditingComplete: onSave,
               cursorColor: Colors.white,
               // textDirection: ,
               decoration: const InputDecoration(

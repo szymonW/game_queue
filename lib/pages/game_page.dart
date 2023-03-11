@@ -49,7 +49,7 @@ class _GameRoute extends State<GameRoute> {
     for (var i in db.playerList) {
       tempList.removeAt(0);
       for (var j in tempList) {
-        tempEntries.add('🎱 ${i[0]} vs ${j[0]}');
+        tempEntries.add('🎱${i[0]} vs ${j[0]}');
       }
     }
     for (int i = 0; i < tempEntries.length; i++) {
@@ -69,9 +69,9 @@ class _GameRoute extends State<GameRoute> {
         if (db.gamesList[index][1] == false) {
           var gamename = db.gamesList[index][0];
           if (gamename.substring(0, 2) == "🎱"){
-            gamename = "${gamename.substring(3)} 🎱";
+            gamename = "${gamename.substring(2)}🎱";
           } else {
-            gamename = "🎱 ${gamename.substring(0, gamename.length-2)}";
+            gamename = "🎱${gamename.substring(0, gamename.length-2)}";
           }
           db.gamesList.add([gamename, false, false]);
           if (db.gamesList[index][2] == true) {
@@ -123,6 +123,7 @@ class _GameRoute extends State<GameRoute> {
 
   //Delete all games
   void deleteAll() {
+    _animateToIndex(0);
     setState(() {
       db.gamesList.clear();
       createList();
@@ -188,22 +189,27 @@ class _GameRoute extends State<GameRoute> {
           ),
           color: Colors.white,
         ),
-        padding: const EdgeInsets.only(bottom: 40.0),
-          child: ScrollablePositionedList.builder(
-              itemScrollController: _itemScrollController,
-              padding: const EdgeInsets.all(15),
-              itemCount: db.gamesList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GamesList(
-                  playersNames: db.gamesList[index][0],
-                  index: index,
-                  colorCode: colorCode(index, db.gamesList[index][1]),
-                  onChanged: (value) => checkBoxChange(index),
-                  gameCompleted: db.gamesList[index][1],
-                );
-              }
+        padding: const EdgeInsets.only(bottom: 40.0, right: 10, left: 10, top: 10),
+    child: ClipRRect(
+    borderRadius: BorderRadius.circular(15),
+    clipBehavior: Clip.hardEdge,
+    child: Container(
+            child: ScrollablePositionedList.builder(
+                itemScrollController: _itemScrollController,
+                // padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                itemCount: db.gamesList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return GamesList(
+                    playersNames: db.gamesList[index][0],
+                    index: index,
+                    colorCode: colorCode(index, db.gamesList[index][1]),
+                    onChanged: (value) => checkBoxChange(index),
+                    gameCompleted: db.gamesList[index][1],
+                  );
+                }
+            ),
           )
         ),
-    );
+    ));
   }
 }

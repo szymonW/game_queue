@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   //Save new player
-  void saveNewPlayer(){
+  void saveNewPlayer({int index = -1}){
     String newPlayer = _controller.text.trim();
     if (_controller.text.isEmpty) {
       okAlertDialog("Can't save empty name field");
@@ -70,7 +70,11 @@ class _HomePageState extends State<HomePage> {
       okAlertDialog("This player already exists");
     } else {
       setState(() {
-        db.playerList.add([newPlayer.toString()]);
+        if (index == -1) {
+          db.playerList.add([newPlayer.toString()]);
+        } else {
+          db.playerList[index] = [newPlayer.toString()];
+        }
         _controller.clear();
         checkStartButtonName();
       });
@@ -106,6 +110,19 @@ class _HomePageState extends State<HomePage> {
       checkStartButtonName();
     });
     db.updatePlayersDB();
+  }
+
+  //Edit Player Name
+  void editField(int index){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return PlayerDialogBox(
+            controller: _controller,
+            onCancel: cancelNewPlayer,
+            onSave: () => saveNewPlayer(index: index),
+          );
+        });
   }
 
   //Start Game
@@ -165,6 +182,7 @@ class _HomePageState extends State<HomePage> {
             return PlayersList(
               playerName: db.playerList[index][0],
               deletePlayer: (context) => deleteField(index),
+              editPlayer: (context) => editField(index),
             );
           },
         )

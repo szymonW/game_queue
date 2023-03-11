@@ -5,11 +5,14 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class PlayersList extends StatelessWidget {
   final String playerName;
   Function(BuildContext)? deletePlayer;
+  Function(BuildContext)? editPlayer;
+
 
   PlayersList({
     super.key,
     required this.playerName,
     required this.deletePlayer,
+    required this.editPlayer,
   });
 
   @override
@@ -31,6 +34,11 @@ class PlayersList extends StatelessWidget {
             endActionPane: ActionPane(
               motion: const StretchMotion(),
               children: [
+                SlidableAction(
+                    onPressed: editPlayer,
+                    icon: Icons.edit,
+                    label: "Edit",
+                    backgroundColor: const Color(0xFF00BCD4)),
                 SlidableAction(
                       onPressed: deletePlayer,
                       icon: Icons.delete,
