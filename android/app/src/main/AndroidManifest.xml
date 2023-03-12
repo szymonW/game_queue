@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.game_queue">
+    package="com.otterlyrock.game_queue">
    <application
         android:label="Game Queue"
         android:name="${applicationName}"

@@ -194,7 +194,8 @@ class _GameRoute extends State<GameRoute> {
     borderRadius: BorderRadius.circular(15),
     clipBehavior: Clip.hardEdge,
     child: Container(
-            child: ScrollablePositionedList.builder(
+      color: Colors.white,
+      child: ScrollablePositionedList.builder(
                 itemScrollController: _itemScrollController,
                 // padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 itemCount: db.gamesList.length,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:game_queue/utils/players_list.dart';
@@ -43,9 +45,11 @@ class _HomePageState extends State<HomePage> {
   //text controller
   final _controller = TextEditingController();
 
-  bool checkDuplicatedName(newPlayer){
+  bool checkDuplicatedName(newPlayer, {String? editPlayerName}){
     for (var i in db.playerList){
-      if (i[0] == newPlayer){return true;}
+      if (i[0] == newPlayer && i[0] != editPlayerName){
+        return true;
+      }
     }
     return false;
   }
@@ -60,13 +64,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   //Save new player
-  void saveNewPlayer({int index = -1}){
+  void saveNewPlayer({int index = -1, String? editPlayerName}){
     String newPlayer = _controller.text.trim();
     if (_controller.text.isEmpty) {
       okAlertDialog("Can't save empty name field");
     } else if (newPlayer.isEmpty) {
       okAlertDialog("Can't add just a space");
-    } else if (checkDuplicatedName(newPlayer)) {
+    } else if (checkDuplicatedName(newPlayer, editPlayerName: editPlayerName)) {
       okAlertDialog("This player already exists");
     } else {
       setState(() {
@@ -92,6 +96,7 @@ class _HomePageState extends State<HomePage> {
 
   //Add new player
   void addPlayer() {
+    _controller.text = "";
     showDialog(
         context: context,
         builder: (context) {
@@ -114,13 +119,17 @@ class _HomePageState extends State<HomePage> {
 
   //Edit Player Name
   void editField(int index){
+    _controller.text = db.playerList[index][0];
     showDialog(
         context: context,
         builder: (context) {
           return PlayerDialogBox(
             controller: _controller,
             onCancel: cancelNewPlayer,
-            onSave: () => saveNewPlayer(index: index),
+            onSave: () => saveNewPlayer(
+                index: index,
+                editPlayerName: db.playerList[index][0]
+            ),
           );
         });
   }

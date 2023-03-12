@@ -9,7 +9,10 @@ class PlayerDialogBox extends StatelessWidget {
   PlayerDialogBox({super.key,
     required this.controller,
     required this.onSave,
-    required this.onCancel});
+    required this.onCancel,
+  });
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +23,21 @@ class PlayerDialogBox extends StatelessWidget {
         child: Column(
             children: [
             //Add player name
-            TextField(
-              textCapitalization: TextCapitalization.words,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.name,
-              autofocus: true,
-              maxLength: 12,
-              textAlign: TextAlign.center,
-              controller: controller,
-              onEditingComplete: onSave,
-              cursorColor: Colors.white,
-              // textDirection: ,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                focusedBorder: OutlineInputBorder(),
-                hintText: 'Player name',
+              TextField(
+                textCapitalization: TextCapitalization.words,
+                textInputAction: TextInputAction.done,
+                keyboardType: TextInputType.name,
+                autofocus: true,
+                maxLength: 12,
+                textAlign: TextAlign.center,
+                // controller: controller..text = initialValue,
+                controller: controller,
+                onEditingComplete: onSave,
+                cursorColor: Colors.white,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(),
+                  hintText: 'Player name',
               ),
             ),
             //Buttons (Cancel & Save)
