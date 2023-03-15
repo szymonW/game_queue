@@ -179,38 +179,61 @@ class _GameRoute extends State<GameRoute> {
         icon: const Icon(Icons.change_circle_outlined),
         onPressed: () => nextGame(),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-            bottomLeft: Radius.circular(15),
-            bottomRight: Radius.circular(15),
-          ),
-          color: Colors.white,
-        ),
-        padding: const EdgeInsets.only(bottom: 40.0, right: 10, left: 10, top: 10),
-    child: ClipRRect(
-    borderRadius: BorderRadius.circular(15),
-    clipBehavior: Clip.hardEdge,
-    child: Container(
-      color: Colors.white,
-      child: ScrollablePositionedList.builder(
-                itemScrollController: _itemScrollController,
-                // padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                itemCount: db.gamesList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GamesList(
-                    playersNames: db.gamesList[index][0],
-                    index: index,
-                    colorCode: colorCode(index, db.gamesList[index][1]),
-                    onChanged: (value) => checkBoxChange(index),
-                    gameCompleted: db.gamesList[index][1],
-                  );
-                }
+
+      body: Stack(
+        children: <Widget>[
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(15),
+              ),
             ),
-          )
-        ),
-    ));
+            padding: const EdgeInsets.only(bottom: 40.0, right: 10, left: 10, top: 10),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                clipBehavior: Clip.hardEdge,
+                child: Container(
+                  color: Colors.white,
+                  child: ScrollablePositionedList.builder(
+                            itemScrollController: _itemScrollController,
+                            // padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                            itemCount: db.gamesList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GamesList(
+                                playersNames: db.gamesList[index][0],
+                                index: index,
+                                colorCode: colorCode(index, db.gamesList[index][1]),
+                                onChanged: (value) => checkBoxChange(index),
+                                gameCompleted: db.gamesList[index][1],
+                              );
+                            }),
+                )
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(15),
+            alignment: Alignment.topRight,
+            child: FloatingActionButton(
+              heroTag: "floatingArrowUp",
+              mini: true,
+              onPressed: () => _animateToIndex(0),
+              child: const Icon(Icons.arrow_upward),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(15),
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton(
+              heroTag: "floatingArrowDown",
+              mini: true,
+              onPressed: () => _animateToIndex(db.gamesList.length),
+              child: const Icon(Icons.arrow_downward),
+            ),
+          ),
+        ]));
   }
 }
