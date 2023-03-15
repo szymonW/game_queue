@@ -21,7 +21,7 @@ jobs:
       - run: cd lib
       - run: ls -al
       - run: |
-          flutter build apk --release --build-name=1.0.${{ github.run_number }} --build-number=${{ github.run_number }}"
+          flutter build apk --release --build-name=1.0.${{ github.run_number }} --build-number=${{ github.run_number }}
           cd build/app/outputs/flutter-apk
           mv app-release.apk gq_1.0.${{ github.run_number }}.apk
       - name: Push to Releases
