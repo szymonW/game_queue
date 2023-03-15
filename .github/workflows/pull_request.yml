@@ -18,20 +18,21 @@ jobs:
       - run: flutter create -t app ./
       - run: cd lib
       - run: ls -al
-      - run: |
-          flutter build apk --release
-      - uses: actions/upload-artifact@master
-        with:
-          name: app-release
-          path: build/app/outputs/flutter-apk/app-release.apk
-  tests:
-    name: Tests
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/download-artifact@master
-        with:
-          name: app-release
-      - run: ls -al
+# ToDo Lines for build  apk:
+#      - run: |
+#          flutter build apk --release
+#      - uses: actions/upload-artifact@master
+#        with:
+#          name: app-release
+#          path: build/app/outputs/flutter-apk/app-release.apk
+#  tests:
+#    name: Tests
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@master
+#      - uses: actions/download-artifact@master
+#        with:
+#          name: app-release
+#      - run: ls -al
 # Line added for test perpuses
