@@ -92,8 +92,16 @@ class _GameRoute extends State<GameRoute> {
             }
           }
             db.gamesList[index][2] = true;
-          for (var i = index + 1; i < db.gamesList.length; i++) {
-            if (db.gamesList[i][0] == db.gamesList[index][0] && db.gamesList[i][1]==false) {
+          for (var i = db.gamesList.length - 1; i > index; i--) {
+            if (
+                  (db.gamesList[index][0].substring(2) ==
+                  db.gamesList[i][0].substring(0, db.gamesList[i][0].length-2)
+                      ||
+                  db.gamesList[index][0].substring(0, db.gamesList[index][0].length-2) ==
+                  db.gamesList[i][0].substring(2)
+                  )
+                    &&
+                db.gamesList[i][1]==false) {
               deleteField(i);
               break;
             }

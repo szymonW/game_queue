@@ -1,6 +1,9 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 // Todo: Refactor DB!
+// https://gist.github.com/erdiizgi/df4504b60c949a34e27f00e2fab042c2#file-product-dart
+// https://developerb2.medium.com/relationships-in-hive-flutter-cb8cadf05c06
+
 class PalyersDataBase {
   List playerList = [];
   List gamesList = [];
