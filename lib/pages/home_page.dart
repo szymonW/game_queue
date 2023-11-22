@@ -20,7 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //reference to hive box
   final _playersBox = Hive.box('playersBox');
-  PalyersDataBase db = PalyersDataBase();
+  PlayersDataBase db = PlayersDataBase();
 
   //AppBar button name
   String startButtonName = "";
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     if (_playersBox.get("players") != null) {
-      db.loadDB("players");
+      db.loadPlayers();
     }
 
     checkStartButtonName();

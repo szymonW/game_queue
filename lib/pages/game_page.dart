@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../db/database.dart';
+import '../model/game.dart';
 import '../utils/app_buttons.dart';
 import '../utils/games_list.dart';
+import "package:trotter/trotter.dart";
 
 class GameRoute extends StatefulWidget {
   const GameRoute({super.key});
@@ -17,7 +19,8 @@ class _GameRoute extends State<GameRoute> {
 
   //reference to hive box
   final _playersBox = Hive.box('playersBox');
-  PalyersDataBase db = PalyersDataBase();
+  final _gamesBox = Hive.box('games');
+  PlayersDataBase db = PlayersDataBase();
 
   void _animateToIndex(int index) {
     _itemScrollController.scrollTo(
@@ -30,9 +33,9 @@ class _GameRoute extends State<GameRoute> {
   @override
   void initState() {
     if (_playersBox.get("players") != null) {
-      db.loadDB("players");
-      if (_playersBox.get("games") != null) {
-        db.loadDB("games");
+      db.loadPlayers();
+      if (_gamesBox.get("games") != null) {
+        db.loadGames();
       } else {
         createList();
       }
@@ -41,73 +44,34 @@ class _GameRoute extends State<GameRoute> {
   }
 
   List createList () {
-    List tempList = List.from(db.playerList);
-    List tempEntries = [];
-    var proIterGames = 0;
-    var revIterGames = 1;
 
-    for (var i in db.playerList) {
-      tempList.removeAt(0);
-      for (var j in tempList) {
-        tempEntries.add('🎱${i[0]} vs ${j[0]}');
-      }
-    }
-    for (int i = 0; i < tempEntries.length; i++) {
-      if (i % 2 == 0) {
-        db.gamesList.add([tempEntries[proIterGames++], false, false]);
-      }else{
-        db.gamesList.add([tempEntries[tempEntries.length-revIterGames++], false, false]);
-      }
-    }
-    db.gamesList[0][2] = true;
+    List<Game> games = [];
+    List playerList = List.from(db.playerList);
+    final playerPerms = String,
+        permutations = Combinations(2, playerList);
+    for(final pair in permutations()) {
+      games.add(Game.newGame(pair[0][0], pair[1][0]));
+    };
+    games.sort((a, b) => a.id.compareTo(b.id));
+
+    db.gamesList.addAll(games);
+
     db.updateGamesDB();
+
     return db.gamesList;
   }
 
   void checkBoxChange(int index){
     setState(() {
-        if (db.gamesList[index][1] == false) {
-          var gamename = db.gamesList[index][0];
-          if (gamename.substring(0, 2) == "🎱"){
-            gamename = "${gamename.substring(2)}🎱";
-          } else {
-            gamename = "🎱${gamename.substring(0, gamename.length-2)}";
-          }
-          db.gamesList.add([gamename, false, false]);
-          if (db.gamesList[index][2] == true) {
-            for (var i = index + 1; i < db.gamesList.length; i++) {
-              if (db.gamesList[i][1] == false) {
-                _animateToIndex(i);
-                db.gamesList[i][2] = true;
-                break;
-              }
-            }
-            db.gamesList[index][2] = false;
-          }
+      Game game = db.gamesList[index];
+        if (game.isFinished() == false) {
+          game.setWinner(game.playerOne);
+          db.gamesList.add(Game.addRevenge(game));
+          db.updateGamesDB();
         } else {
-          for (var i = 0; i < db.gamesList.length; i++) {
-            if (db.gamesList[i][2] == true) {
-              db.gamesList[i][2] = false;
-              break;
-            }
+          deleteGame(db.gamesList.indexOf(db.gamesList.firstWhere((element) => (element as Game).isRevenge(game))));
+          game.resetWinner();
           }
-            db.gamesList[index][2] = true;
-          for (var i = db.gamesList.length - 1; i > index; i--) {
-            if (
-                  (db.gamesList[index][0].substring(2) ==
-                  db.gamesList[i][0].substring(0, db.gamesList[i][0].length-2)
-                      ||
-                  db.gamesList[index][0].substring(0, db.gamesList[index][0].length-2) ==
-                  db.gamesList[i][0].substring(2)
-                  )
-                    &&
-                db.gamesList[i][1]==false) {
-              deleteField(i);
-              break;
-            }
-          }
-          }
-          db.gamesList[index][1] = !db.gamesList[index][1];
       });
       db.updateGamesDB();
     }
@@ -122,7 +86,7 @@ class _GameRoute extends State<GameRoute> {
     }
 
   //Delete game
-  void deleteField(int index){
+  void deleteGame(int index){
     setState(() {
       db.gamesList.removeAt(index);
     });
@@ -140,23 +104,25 @@ class _GameRoute extends State<GameRoute> {
   }
 
   // Add colors to tame list
-  Color? colorCode(index, gameCompleted, {rev = true, realIndex = -1}) {
+  Color? colorCode(index, Game game, {rev = true, realIndex = -1}) {
     realIndex = realIndex == -1 ? index : realIndex;
     int startValue = rev ? 700 : 100;
     int indexSign = rev ? -1 : 1;
     num iReturn = startValue+indexSign*index*100;
     MaterialColor color;
-    if (gameCompleted == false) {
-      color = Colors.cyan;
-    } else {
+    if (game.isFinished()) {
       color = Colors.red;
+    } else {
+      color = Colors.cyan;
     }
-    if (db.gamesList[realIndex][2]){
-      return Colors.green;
-    } if (index <= 6) {
+    // if ((index == 0 && !game.isFinished())
+    //     || (!(db.gamesList[index] as Game).isFinished()&&(db.gamesList[index-1] as Game).isFinished())){
+    //   return Colors.green;
+    // }
+    if (index <= 6) {
       return color[iReturn.toInt()];
     }else{
-      return colorCode(index-6, gameCompleted, rev: !rev, realIndex: realIndex);
+      return colorCode(index-6, game, rev: !rev, realIndex: realIndex);
     }
   }
 
@@ -212,11 +178,11 @@ class _GameRoute extends State<GameRoute> {
                             itemCount: db.gamesList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return GamesList(
-                                playersNames: db.gamesList[index][0],
+                                playersNames: db.gamesList[index].toString(),
                                 index: index,
-                                colorCode: colorCode(index, db.gamesList[index][1]),
+                                colorCode: colorCode(index, db.gamesList[index]),
                                 onChanged: (value) => checkBoxChange(index),
-                                gameCompleted: db.gamesList[index][1],
+                                gameCompleted: (db.gamesList[index] as Game).isFinished(),
                               );
                             }),
                 )

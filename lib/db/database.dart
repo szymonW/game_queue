@@ -1,32 +1,35 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../model/game.dart';
+
 // Todo: Refactor DB!
 // https://gist.github.com/erdiizgi/df4504b60c949a34e27f00e2fab042c2#file-product-dart
 // https://developerb2.medium.com/relationships-in-hive-flutter-cb8cadf05c06
 
-class PalyersDataBase {
+class PlayersDataBase {
   List playerList = [];
   List gamesList = [];
   //reference the hive box
-  final _palyersBox = Hive.box('playersbox');
+  final _playersBox = Hive.box('playersbox');
+  final _gamesBox = Hive.box('games');
 
-  void loadDB(String name) {
-    if (name == "players") {
-      playerList = _palyersBox.get(name);
-    } if (name == "games") {
-      gamesList = _palyersBox.get(name);
-    }
+  void loadPlayers() {
+      playerList = _playersBox.get("players");
+  }
+
+  void loadGames(){
+    gamesList = _gamesBox.values.toList();
   }
 
   void updatePlayersDB() {
-    _palyersBox.put("players", playerList);
-    if (_palyersBox.get("games") != null) {
-      gamesList.clear();
-      _palyersBox.put("games", null);
-    }
+    _playersBox.put("players", playerList);
   }
 
-  void updateGamesDB() {
-    _palyersBox.put("games", gamesList);
+  void addGame(Game game) {
+    _gamesBox.put(game.id, game);
+  }
+
+  void updateGamesDB(){
+    gamesList.forEach((element) { addGame(element);});
   }
 }
